@@ -10,7 +10,7 @@ current_messages = []
 def create_discussion(description):
     url = "https://api.github.com/WATonomous/infrastructure-support/discussions"  # Replace with actual repo details
     headers = {
-        "Authorization": "Bearer YOUR_GITHUB_TOKEN",  # Replace with a valid GitHub token
+        "Authorization": "Bearer GITHUB_TOKEN",  # Replace with a someones GitHub token
         "Accept": "application/vnd.github.v3+json"
     }
     data = {
