@@ -43,7 +43,7 @@ func main() {
 				if _, already := notified[a.Link]; already {
 					continue
 				}
-				// Would notify here
+				// TODO: Send notification for new announcement (email, etc.)
 				fmt.Printf("[NEW] Would notify: %s (%s)\n", a.Title, a.Link)
 				if err := state.SaveNotified(a.Link); err != nil {
 					log.Printf("Failed to save notified link: %v", err)
