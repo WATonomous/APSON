@@ -8,6 +8,7 @@ import (
 
 	"github.com/WATonomous/APSON/internal/config"
 	"github.com/WATonomous/APSON/internal/plantops"
+	"github.com/WATonomous/APSON/internal/state"
 )
 
 // APSON main entrypoint
@@ -22,6 +23,11 @@ func main() {
 		log.Fatalf("Failed to load config: %v", err)
 	}
 
+	notified, err := state.LoadNotified()
+	if err != nil {
+		log.Fatalf("Failed to load notified state: %v", err)
+	}
+
 	fmt.Println("APSON service starting...")
 	fmt.Printf("Monitoring buildings: %v\n", cfg.Buildings)
 
@@ -32,11 +38,22 @@ func main() {
 		if err != nil {
 			log.Printf("Error fetching PlantOps: %v", err)
 		} else {
-			// TODO: Filter out already-notified announcements using state
-			// TODO: Send notifications for new announcements
-			fmt.Printf("Found %d relevant announcements:\n", len(announcements))
+			newCount := 0
 			for _, a := range announcements {
-				fmt.Printf("- %s (%s)\n", a.Title, a.Link)
+				if _, already := notified[a.Link]; already {
+					continue
+				}
+				// Would notify here
+				fmt.Printf("[NEW] Would notify: %s (%s)\n", a.Title, a.Link)
+				if err := state.SaveNotified(a.Link); err != nil {
+					log.Printf("Failed to save notified link: %v", err)
+				} else {
+					notified[a.Link] = struct{}{}
+				}
+				newCount++
+			}
+			if newCount == 0 {
+				fmt.Println("No new relevant announcements.")
 			}
 		}
 		fmt.Printf("Sleeping for %v...\n", interval)
