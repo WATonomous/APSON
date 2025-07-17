@@ -1,0 +1,17 @@
+# APSON configuration
+email:
+  sender: ""
+  password: ""
+  recipients:
+    # - "watcloud-compute-cluster-announcements@watonomous.ca"
+    - "ivvyleague@icloud.com"
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+
+polling_interval_minutes: 60
+# Only notify about outages within this many days from now
+notify_window_days: 14
+# List of building codes/names to match
+buildings:
+  - "CPH"
+  - "E2"
