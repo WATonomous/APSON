@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apson
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apson
+  template:
+    metadata:
+      labels:
+        app: apson
+    spec:
+      containers:
+      - name: apson
+        image: watonomous/apsont:latest
+        env:
+        - name: CONFIG_PATH
+          value: /configs/config.yaml
+        volumeMounts:
+        - name: config-volume
+          mountPath: /configs
+      volumes:
+      - name: config-volume
+        configMap:
+          name: apson-config 

@@ -1,0 +1,12 @@
+# APSON configuration
+email:
+  sender: ""
+  password: ""
+  recipients:
+    - ""
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+
+polling_interval_minutes: 60
+# Only notify about outages within this many days from now
+notify_window_days: 14 
