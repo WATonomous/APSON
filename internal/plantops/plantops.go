@@ -37,8 +37,12 @@ func FetchAndParse(buildings []string) ([]Announcement, error) {
 	doc.Find("a.w3-leftbar").Each(func(i int, s *goquery.Selection) {
 		title := strings.TrimSpace(s.Text())
 		link, _ := s.Attr("href")
+		titleUpper := strings.ToUpper(title)
+		if !(strings.Contains(titleUpper, "ELECTRICAL") || strings.Contains(titleUpper, "POWER")) {
+			return
+		}
 		for _, b := range buildings {
-			if strings.Contains(strings.ToUpper(title), strings.ToUpper(b)) {
+			if strings.Contains(titleUpper, strings.ToUpper(b)) {
 				results = append(results, Announcement{
 					Title: title,
 					Link:  link,
